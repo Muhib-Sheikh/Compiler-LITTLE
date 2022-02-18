@@ -1,6 +1,30 @@
 grammar Little;
 
 r:;
+
+fragment LOWER: [a-z];
+fragment UPPER: [A-Z];
+fragment DIGIT: [0-9];
+
+COMMENT: '--' ~[\r\n]* -> skip; // skip comments
+WHITESPACE: [ \t\r\n]+ -> skip; // skip spaces, tabs, newlines
+OPERATOR:
+	':='
+	| '+'
+	| '-'
+	| '*'
+	| '/'
+	| '='
+	| '!='
+	| '<'
+	| '>'
+	| '('
+	| ')'
+	| ';'
+	| ','
+	| '<='
+	| '>=';
+
 KEYWORD:
 	'PROGRAM'
 	| 'BEGIN'
@@ -21,26 +45,7 @@ KEYWORD:
 	| 'STRING'
 	| 'FLOAT';
 
-IDENTIFIER: ([a-z] | [A-Z])+ ([A-Z] | [a-z] | [0-9])*;
-INTLITERAL: [0-9]+;
-FLOATLITERAL: [0-9]* '.' [0-9]+;
+FLOATLITERAL: (DIGIT)* '.' (DIGIT)+;
+INTLITERAL: (DIGIT)+;
+IDENTIFIER: (LOWER | UPPER)+ (LOWER | UPPER | DIGIT)*;
 STRINGLITERAL: '"' .*? '"';
-
-COMMENT: '--' .*? [\n\r]* -> skip;
-WHITESPACE: [ \t\n\r]+ -> skip;
-OPERATOR:
-	':='
-	| '+'
-	| '-'
-	| '*'
-	| '/'
-	| '='
-	| '!='
-	| '<'
-	| '>'
-	| '('
-	| ')'
-	| ';'
-	| ','
-	| '<='
-	| '>=';
