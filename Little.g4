@@ -1,6 +1,6 @@
 grammar Little;
 
-r: COMMENT;
+r:;
 KEYWORD:
 	'PROGRAM'
 	| 'BEGIN'
@@ -20,15 +20,19 @@ KEYWORD:
 	| 'VOID'
 	| 'STRING'
 	| 'FLOAT';
-IDENTIFIER: ([a-z] | [A-Z]) [A-Za-z0-9]*;
+
+IDENTIFIER: ([a-z] | [A-Z])+ ([A-Z] | [a-z] | [0-9])*;
 INTLITERAL: [0-9]+;
 FLOATLITERAL: [0-9]* '.' [0-9]+;
 STRINGLITERAL: '"' .*? '"';
-COMMENT: '--' .*? [EOF\n\r] -> skip;
+
+COMMENT: '--' .*? [\n\r]* -> skip;
+WHITESPACE: [ \t\n\r]+ -> skip;
 OPERATOR:
 	':='
 	| '+'
 	| '-'
+	| '*'
 	| '/'
 	| '='
 	| '!='
